@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conectare</title>
+    <link rel="stylesheet" type="text/css" href="/static/login.css">
+</head>
+
+<body>
+    <div class="logo-container">
+        <img src="/static/nosugar-logo.png" alt="noSugar Logo" class="logo">
+    </div>
+    <div class="container">
+        <h1>Conectare</h1>
+        <form method="POST" action="/login" enctype="multipart/form-data">
+            <label for="name">Nume utilizator:</label>
+            <input type="text" name="name" required>
+            <br>
+            <label for="password">Parolă:</label>
+            <input type="password" name="password" required>
+            <br>
+            {% if error %}
+            <p class="password-mismatch">{{ error }}</p>
+            {% endif %}
+            <button type="submit">Conectare</button>
+        </form>
+        <div class="signup-link">
+            <p>Nu ai un cont? <a href="/signup">Înregistrează-te aici</a>.</p>
+        </div>
+    </div>
+</body>
+
+</html>

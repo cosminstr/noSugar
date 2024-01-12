@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Formular{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/static/formular_completat.css">
+<h1>{{message}}</h1>
+<script>
+    setTimeout(function () {
+        window.location.href = '{{ url_for("formular_user", id=id) }}';
+    }, 2500);
+</script>
+{% endblock %}

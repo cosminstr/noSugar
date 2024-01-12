@@ -1,0 +1,62 @@
+body {
+    font-family: "Raleway", sans-serif;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navbar {
+    background-color: #66bb6a;
+    color: #fff;
+    padding: 20px 0;
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: -20px;
+    margin-right: -20px;
+}
+
+.navbar nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.navbar a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    padding: 19px;
+    font-size: 18px;
+    font-weight: normal;
+    border-radius: 20px;
+}
+
+.navbar a:not(.numele):hover {
+    color: rgba(255, 255, 255);
+    background-color: #4CAF50;
+    border-radius: 0;
+    padding: 19px;
+    transition: background-color 0.5s ease, border-radius 0.5s ease;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.logo {
+    max-height: 50px;
+    margin: 0px;
+    padding: 0px;
+    background-color: white;
+    border-radius: 10px;
+    /* You can adjust the value as needed */
+    max-width: 100%;
+    height: auto;
+}

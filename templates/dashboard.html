@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="button-container">
+    <button id="exportButton" class="theme-button">Export Date</button>
+    <form id="importForm" method="post" action="/users/{{ id }}/import" enctype="multipart/form-data">
+        <input type="file" class="theme-button" id="importFile" name="import_file" accept=".csv" required>
+        <button type="submit" class="theme-button">Import Date</button>
+    </form>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const chartData = {{ chart_data | default ('{"labels": [], "bloodsugar": [], "insulindose": [], "nr_mese": [], "activitate": []}') | tojson | safe
+    }};
+
+    function updateChart(chart, label, data, borderColor, backgroundColor, title, titleFontSize) {
+        chart.data.datasets[0].data = data;
+        chart.data.labels = label;
+        chart.data.datasets[0].borderColor = borderColor;
+        chart.data.datasets[0].backgroundColor = backgroundColor;
+        chart.options.scales.y.beginAtZero = true;
+        chart.options.plugins.title.text = title;
+        chart.options.plugins.title.display = true;
+        chart.options.plugins.title.font.size = titleFontSize;
+        chart.update();
+    }
+
+    // Chart 1: Glicemie
+    const ctx1 = document.getElementById('bloodSugarChart').getContext('2d');
+    const bloodSugarChart = new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: chartData.labels,
+            datasets: [{
+                label: 'Glicemie',
+                data: chartData.bloodsugar,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    min: 60,
+                    max: 140,
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Nivelul de zahăr din sange',
+                    font: {
+                        size: 18
+                    }
+                }
+            }
+        }
+    });
+
+    // Chart 2: Doze de Insulină
+    const ctx2 = document.getElementById('insulinDoseChart').getContext('2d');
+    const insulinDoseChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: chartData.labels,
+            datasets: [
+                {
+                    label: 'Doza de Insulină',
+                    data: chartData.insulindose,
+                    type: 'line',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Doze de insulină',
+                    font: {
+                        size: 18
+                    }
+                }
+            }
+        }
+    });
+
+    // Chart 3: Număr de Mese
+    const ctx3 = document.getElementById('numberOfMealsChart').getContext('2d');
+    const numberOfMealsChart = new Chart(ctx3, {
+        type: 'bar',
+        data: {
+            labels: chartData.labels,
+            datasets: [{
+                label: 'Număr de Mese',
+                data: chartData.nr_mese,
+                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                borderColor: 'rgba(255, 206, 86, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Numărul de mese',
+                    font: {
+                        size: 18
+                    }
+                }
+            }
+        }
+    });
+
+    // Chart 4: Activitatea Zilnică 
+    const ctx4 = document.getElementById('dailyActivityChart').getContext('2d');
+    const dailyActivityChart = new Chart(ctx4, {
+        type: 'line',
+        data: {
+            labels: chartData.labels,
+            datasets: [{
+                label: 'Activitatea Zilnică',
+                data: chartData.activitate,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Activitate zilnica',
+                    font: {
+                        size: 18
+                    }
+                }
+            }
+        }
+    });
+    });
+
+    document.getElementById('exportButton').addEventListener('click', function () {
+        window.location.href = '/users/{{ id }}/export';
+    });
+    document.getElementById('importForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const importFileInput = document.getElementById('importFile');
+        const formData = new FormData();
+        formData.append('import_file', importFileInput.files[0]);
+
+        fetch('/users/{{ id }}/import', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Import successful, redirect to /dashboard
+                    window.location.href = '/users/{{ id }}/dashboard';
+                } else {
+                    // Handle import error (optional)
+                    console.error('Import failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error during import:', error);
+            });
+    });
+</script>
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center;">
+    <div style="width: 33%; margin: 10px;">
+        <canvas id="bloodSugarChart" width="400" height="400"></canvas>
+    </div>
+    <div style="width: 33%; margin: 10px;">
+        <canvas id="insulinDoseChart" width="400" height="400"></canvas>
+    </div>
+    <div style="width: 33%; margin: 10px;">
+        <canvas id="numberOfMealsChart" width="400" height="400"></canvas>
+    </div>
+    <div style="width: 33%; margin: 10px;">
+        <canvas id="dailyActivityChart" width="400" height="400"></canvas>
+    </div>
+</div>
+
+
+{% endblock %}

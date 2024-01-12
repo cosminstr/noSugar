@@ -1,0 +1,33 @@
+Tracker și Analizor simplu pentru diabet care permite utilizatorilor să introducă și să monitorizeze nivelurile lor zilnice de zahăr din sânge, dozele de insulină și alte informații relevante. Aplicația ar trebui să ofere vizualizări și analize de bază pentru a-i ajuta pe utilizatori să-și monitorizeze starea în timp.
+
+Funcitonalitati necesare de implementare : 
+
+1. Autentificare a Utilizatorului:Permite utilizatorilor să se înregistreze și să se autentifice în mod securizat pentru a-și urmări datele personale.
+
+2. Introducerea Datelor:
+Furnizează un formular pentru ca utilizatorii să introducă date zilnice, incluzând nivelurile de zahăr din sânge, dozele de insulină, mesele și activitatea fizică.
+
+3.Vizualizarea Datelor:
+Creează vizualizări (de exemplu, grafice cu linii, grafice cu bare) pentru a afișa tendințele în nivelurile de zahăr din sânge în timp.
+Afișează dozele de insulină și corelația lor cu nivelurile de zahăr din sânge.
+
+4. Analiza Datelor:
+Implementează analize statistice de bază, cum ar fi calcularea mediei nivelurilor de zahăr din sânge, deviația standard și tendințele.
+Oferă informații cu privire la impactul meselor și activității fizice asupra nivelurilor de zahăr din sânge.
+
+5. Remindere:
+Permite utilizatorilor să seteze remindere pentru medicație, mese sau alte activități legate de gestionarea diabetului.
+
+6. Export și Import Date:
+Permite utilizatorilor să își exporte datele într-un fișier (de exemplu, CSV) pentru înregistrări personale.
+Implementează funcționalitatea de importare a datelor din surse externe.
+
+7.Interfață Ușor de Utilizat:
+Proiectează o interfață curată și ușor de utilizat pentru o navigare și introducere ușoară a datelor.
+
+Biblioteci de Luat în Considerare:
+
+Flask sau Django pentru cadru aplicațional web.
+Chart.js sau Plotly pentru vizualizarea datelor.
+Pandas pentru manipularea și analiza datelor.
+SQLite sau MongoDB pentru stocarea datelor în baza de date.

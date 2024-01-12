@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Reminder{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.js"></script>
+</head>
+
+<body>
+    <div class="button-container">
+        <button id="addButton">Adaugă</button>
+        <button id="deleteButton">Sterge</button>
+    </div>
+    <div id="calendar"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                editable: true,
+                selectable: true,
+                select: function (info) {
+                    if (isAddingEvent) {
+                        var title = prompt('Introdu reminder:');
+                        if (title) {
+                            var event = {
+                                id: new Date().toISOString(),
+                                title: title,
+                                start: info.startStr,
+                                end: info.endStr,
+                                allDay: info.allDay,
+                            };
+
+                            calendar.addEvent(event);
+                            saveEventToLocalStorage(event);
+                        }
+                        calendar.unselect();
+                    }
+                },
+                events: loadEventsFromLocalStorage(),
+                eventClick: function (info) {
+                    if (!isAddingEvent) {
+                        var confirmDelete = confirm("Esti sigur ca vrei sa stergi acest reminder?");
+                        if (confirmDelete) {
+                            info.event.remove();
+                            removeEventFromLocalStorage(info.event);
+                        }
+                    }
+                }
+            });
+
+            calendar.render();
+
+            var isAddingEvent = true;
+
+            document.getElementById('addButton').addEventListener('click', function () {
+                isAddingEvent = true;
+            });
+
+            document.getElementById('deleteButton').addEventListener('click', function () {
+                isAddingEvent = false;
+            });
+
+            function saveEventToLocalStorage(event) {
+                var events = loadEventsFromLocalStorage();
+                events.push(event);
+                localStorage.setItem('calendarEvents', JSON.stringify(events));
+            }
+
+            function loadEventsFromLocalStorage() {
+                var events = localStorage.getItem('calendarEvents');
+                return events ? JSON.parse(events) : [];
+            }
+
+            function removeEventFromLocalStorage(event) {
+                var events = loadEventsFromLocalStorage();
+                events = events.filter(function (e) {
+                    return e.id !== event.id;
+                });
+                localStorage.setItem('calendarEvents', JSON.stringify(events));
+            }
+        });
+
+        // localStorage.removeItem('calendarEvents');
+
+    </script>
+
+    <style>
+        .button-container button {
+            color: #fff;
+            background-color: #66bb6a;
+            border: none;
+            padding: 20px 25px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 20px;
+            margin: 20px;
+            transition: background-color 0.5s ease, border-radius 0.5s ease;
+            display: inline-block;
+        }
+
+        .button-container button:hover {
+            color: rgba(255, 255, 255);
+            background-color: #4CAF50;
+            transition: background-color 0.5s ease, border-radius 0.5s ease;
+        }
+
+        #calendar {
+            width: 250% !important;
+            padding: 20px;
+            position: relative;
+            margin-left: 10px !important;
+        }
+    </style>
+    {% endblock %}

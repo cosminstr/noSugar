@@ -1,0 +1,36 @@
+.stat-group {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.stat-item {
+    width: calc(48% - 50px);
+    background-color: #f0f0f0;
+    padding: 40px;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
+    margin-right: 100px;
+    margin-left: 100px;
+}
+
+h3 {
+    font-size: 26px;
+}
+
+p {
+    margin: 8px 0;
+    font-size: 22px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 30px;
+}

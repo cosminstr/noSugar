@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Analiza Date{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/static/analiza.css">
+<div class="content">
+    <h2>Analiză Date</h2>
+
+    <div class="stat-group">
+        <div class="stat-row">
+            <div class="stat-item">
+                <h3>Niveluri de Zahăr în Sânge</h3>
+                <p>Zile: {{ blood_sugar_stats['count'] }}</p>
+                <p>Medie: {{ blood_sugar_stats['mean'] }}</p>
+                <p>Deviație Standard: {{ blood_sugar_stats['std'] }}</p>
+                <p>Minim: {{ blood_sugar_stats['min'] }}</p>
+                <p>Maxim: {{ blood_sugar_stats['max'] }}</p>
+            </div>
+
+            <div class="stat-item">
+                <h3>Doze de Insulină</h3>
+                <p>Zile: {{ insulindose_stats['count'] }}</p>
+                <p>Medie: {{ insulindose_stats['mean'] }}</p>
+                <p>Deviație Standard: {{ insulindose_stats['std'] }}</p>
+                <p>Minim: {{ insulindose_stats['min'] }}</p>
+                <p>Maxim: {{ insulindose_stats['max'] }}</p>
+            </div>
+        </div>
+
+        <div class="stat-row">
+            <div class="stat-item">
+                <h3>Număr de Mese</h3>
+                <p>Zile: {{ nr_mese_stats['count'] }}</p>
+                <p>Medie: {{ nr_mese_stats['mean'] }}</p>
+                <p>Deviație Standard: {{ nr_mese_stats['std'] }}</p>
+                <p>Minim: {{ nr_mese_stats['min'] }}</p>
+                <p>Maxim: {{ nr_mese_stats['max'] }}</p>
+            </div>
+
+            <div class="stat-item">
+                <h3>Minute de Activitate Fizică</h3>
+                <p>Zile: {{ activitate_stats['count'] }}</p>
+                <p>Medie: {{ activitate_stats['mean'] }}</p>
+                <p>Deviație Standard: {{ activitate_stats['std'] }}</p>
+                <p>Minim: {{ activitate_stats['min'] }}</p>
+                <p>Maxim: {{ activitate_stats['max'] }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
