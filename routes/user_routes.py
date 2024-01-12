@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import jsonify, request, render_template
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash
@@ -229,9 +229,6 @@ def import_data(id):
         if import_file:
             content = import_file.read().decode('utf-8')
             lines = content.split('\n')[2:]
-
-            print("Original lines:")
-            print(lines)
 
             json_data = []
 
