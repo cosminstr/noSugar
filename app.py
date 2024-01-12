@@ -1,11 +1,11 @@
 from flask import Flask
 from flask_pymongo import PyMongo
-import private
+import private2
 
 app = Flask(__name__)
 
-secret_key = private.secret_key
-connection_str = private.connection_string
+secret_key = private2.secret_key
+connection_str = private2.connection_string
 
 app.secret_key = secret_key
 app.config['MONGO_URI'] = connection_str
