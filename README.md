@@ -1,8 +1,8 @@
-# Project Name
+# noSugar
 
 ## Description
 
-A brief description of the project, what it does, and its purpose.
+Tracker and Analyzer for diabetes that allows users to add and monitor their daily blood sugar levels, insulin doses, and other relevant information. The application provides visualizations and analysis to help users track their condition over time. It also allows the users to set reminders for medication, meals, or other important activities related to diabetes.
 
 ## Screenshots
 
@@ -10,11 +10,10 @@ Include screenshots or GIFs that illustrate key aspects of the project.
 
 ## Technologies Used
 
-List the main technologies and programming languages used in the project.
-
-- Example 1
-- Example 2
-- ...
+- Flask for the web environment
+- mongoDB for data storage
+- Chart.js for data visualisation
+- Pandas for data manipulation
 
 ## How to Install and Run the Project
 
@@ -23,32 +22,12 @@ List the main technologies and programming languages used in the project.
 3. Install dependencies: `dependency installation command`
 4. Run the project: `startup command`
 
-## How to Contribute
-
-If you wish to contribute to the project, follow the steps below:
-
-1. Fork this repository
-2. Create a new branch: `git checkout -b feature/new-feature`
-3. Commit your changes: `git commit -m 'Add new feature'`
-4. Push the branch to your forked repository: `git push origin feature/new-feature`
-5. Submit a Pull Request
-
 ## Known Issues
 
-List any known issues or limitations of the project.
+Need to work on the "Reminders" page, specifically how the reminders are stored for each individual user
 
 ## Additional Resources
 
-Add any relevant links or additional documentation.
+Used FullCalendar.js to render a calendar for the reminders
+https://fullcalendar.io/docs/getting-started
 
-## Authors
-
-- Your name
-- Other contributors (if any)
-
-## License
-
-Choose an appropriate license for your project. You can use [ChooseALicense.com](https://choosealicense.com/) to help you choose one.
-
----
-**Note:** Make sure to respect the licenses and usage rules of any resources, libraries, or technologies you have included in the project.
