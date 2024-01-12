@@ -24,6 +24,6 @@ Need to work on the "Reminders" page, specifically how the reminders are stored 
 
 ## Additional Resources
 
-Used FullCalendar.js to render a calendar for the reminders\n
+Used FullCalendar.js to render a calendar for the reminders : 
 https://fullcalendar.io/docs/getting-started
 
