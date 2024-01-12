@@ -2,11 +2,11 @@
 
 ## Description
 
-Tracker and Analyzer for diabetes that allows users to add and monitor their daily blood sugar levels, insulin doses, and other relevant information. The application provides visualizations and analysis to help users track their condition over time. It also allows the users to set reminders for medication, meals, or other important activities related to diabetes.
+Tracker and Analyzer for diabetes that allows users to add and monitor their daily blood sugar levels, insulin doses, and other relevant information. The application provides visualizations and analysis to help users track their condition over time. It also allows the users to set reminders for medication, meals, or other important activities related to diabetes, as well as exporting and importing data to and from other sources.
 
-## Screenshots
 
-Include screenshots or GIFs that illustrate key aspects of the project.
+![Project Screenshot](static/no-sugar-logo.png)
+
 
 ## Technologies Used
 
