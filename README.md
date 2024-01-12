@@ -17,10 +17,10 @@ Include screenshots or GIFs that illustrate key aspects of the project.
 
 ## How to Install and Run the Project
 
-1. Clone this repository: `git clone https://github.com/user/project.git`
-2. Navigate to the project directory: `cd project`
-3. Install dependencies: `dependency installation command`
-4. Run the project: `startup command`
+1. Clone this repository: `git clone https://github.com/cosminstr/noSugar.git`
+2. Navigate to the project directory: `cd noSugar`
+3. Install dependencies: `pip install requirements.txt`
+4. Run the project: `python app.py`
 
 ## Known Issues
 
