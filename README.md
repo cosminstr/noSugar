@@ -18,6 +18,8 @@ Tracker and Analyzer for diabetes that allows users to add and monitor their dai
 3. Install dependencies: `pip install -r requirements.txt`
 4. Run the project: `python app.py`
 
+ * 3.2. Request in the 'issues' page of this repository the credentials from private.py in order to run the project
+   
 ## Known Issues
 
 Need to work on the "Reminders" page, specifically how the reminders are stored for each individual user
