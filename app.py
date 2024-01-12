@@ -17,7 +17,8 @@ except Exception as e:
     print("eroare la conectarea cu DB: {e}")
 
 from routes.home_route import *
-from routes.user_routes import *
+from routes.users_routes import *
+from routes.register_routes import *
 
 if __name__ == "__main__" : 
     app.run(debug = True)

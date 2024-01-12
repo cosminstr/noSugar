@@ -1,91 +1,12 @@
 from flask import jsonify, request, render_template
 from bson.json_util import dumps
 from bson.objectid import ObjectId
-from werkzeug.security import generate_password_hash
-from werkzeug.security import check_password_hash
 from datetime import datetime
-from flask import redirect, url_for
 import pandas as pd
 from app import app
 from app import mongo
 
-
-# RUTA PENTRU PAGINA DE SIGNUP
-@app.route('/signup', methods=['GET', 'POST'])
-def add_user():
-
-    if request.method == 'POST':
-
-        if request.content_type == 'application/json':
-            _json = request.json
-            _name = _json['name']
-            _password = _json['password']
-            _confirm_password = _json['confirm_password']
-        else:
-            _name = request.form['name']
-            _password = request.form['password']
-            _confirm_password = request.form['confirm_password']
-
-        _hashedpassword = generate_password_hash(_password)
-
-        data = {
-            'name': _name, 
-            'password': _hashedpassword
-        }
-
-        if _name and _password and _confirm_password:
-            if _password != _confirm_password:
-                return render_template('signup.html', error = 'Parolele nu coincid.', name = _name), 400
-
-            if mongo.db.Users.find_one({'name': _name}):
-                return render_template('signup.html', error = 'Numele de utilizator există deja', name = _name), 400
-
-            id = mongo.db.Users.insert_one(data)
-
-            resp = jsonify("User adaugat cu succes")
-            resp.status_code = 200
-            user_id = str(id)
-
-            return redirect(url_for('verify_user'))
-        else:
-            return not_found()
-    else : 
-        return render_template('signup.html')
-
-
-#RUTA PENTRU PAGINA DE LOGIN
-@app.route('/login', methods=['GET', 'POST'])
-
-def verify_user():
-    if request.method == 'POST':
-        if request.content_type == 'application/json':
-            _json = request.json
-            _name = _json['name']
-            _password = _json['password']
-        else:
-            _name = request.form['name']
-            _password = request.form['password']
-
-        existing_user = mongo.db.Users.find_one({'name': _name})
-
-        if existing_user : 
-            if _name and _password:
-                is_password_correct = check_password_hash(existing_user['password'], _password)
-
-                if is_password_correct:
-                    user_id = str(existing_user['_id'])
-                    print(f"Login successful for user with ID: {user_id}")
-
-                    return redirect(url_for('formular_user', id = user_id))
-                else:
-                    return render_template('login.html', error='Username sau parola gresite')
-        else : 
-            return render_template('login.html', error = 'Username inexistent')
-    else : 
-        return render_template('login.html')
-
-
-#RUTA FOLOSITA LA INCEPUT PENTRU TESTAREA IN POSTMAN
+# route used in the beginning while debugging in POSTMAN
 @app.route('/users/<id>', methods = ['GET'])
 def user(id) : 
     user = mongo.db.Users.find_one({'_id' : ObjectId(id)})
@@ -93,7 +14,7 @@ def user(id) :
     return resp
 
 
-#RUTA PENTRU PAGINA FORMULARULUI
+# form route
 @app.route('/users/<id>/formular', methods=['GET', 'POST'])
 
 def formular_user(id):
@@ -134,7 +55,7 @@ def formular_user(id):
         return render_template('formular.html', id=str(id), name = user_name)
 
 
-#RUTA PENTRU PAGINA DE DASHBOARD
+# dashboard route
 @app.route('/users/<id>/dashboard', methods=['GET'])
 
 def dashboard(id):
@@ -158,7 +79,7 @@ def dashboard(id):
     return render_template('formular_complet.html', id = str(id), message = 'Completeaza formularul pentru a putea vizualiza statistici',name=user_name)
 
 
-#RUTA PENTRU PAGINA DE REMINDERE
+# reminders route
 @app.route('/users/<id>/remindere', methods = ['GET', 'POST'])
 
 def user_form(id):
@@ -168,7 +89,7 @@ def user_form(id):
 
     return render_template('calendar.html', id = str(id), name=user_name)
 
-#RUTA PENTRU PAGINA DE ANALIZE IN PANDAS
+# analysis route
 @app.route('/users/<id>/analiza', methods = ['GET'])
 def analiza(id):
     user = mongo.db.Users.find_one({'_id': ObjectId(id)})
@@ -193,7 +114,7 @@ def analiza(id):
     else:
         return render_template('formular_complet.html', id = str(id), message = 'Completeaza formularul pentru a putea vizualiza statistici',name=user_name)
 
-#FUNCTIE FOLOSITA PENTRU A ELIMINA TOATE CARACTERELE DE TIP 'CHAR' DINTR-UN FISIER
+# function to remove all 'char' datatypes from a file
 def string_to_array(input_string):
     try:
         result_array = [int(num) for num in input_string.split(',')]
@@ -203,7 +124,7 @@ def string_to_array(input_string):
         return None
 from flask import Response
 
-#RUTA PENTRU PAGINA DE EXPORT
+# export route
 @app.route('/users/<id>/export', methods=['GET'])
 def export_user_data(id):
     forms_data = list(mongo.db.Forms.find({'user_id': id}, {'_id': 0, 'timestamp': 0, 'user_id': 0}))
@@ -220,7 +141,7 @@ def export_user_data(id):
 
     return not_found()
 
-#RUTA PENTRU PAGINA DE IMPORT
+# import route
 @app.route('/users/<id>/import', methods=['POST'])
 def import_data(id):
     try:
@@ -259,7 +180,7 @@ def import_data(id):
         return jsonify({'error': f'Error importing data. Please check your file. {str(e)}'}), 500
 
 
- #RUTA FOLOSITA LA INCEPUT PENTRU TESTAREA IN POSTMAN   
+# route used in the beginning while debugging in POSTMAN
 @app.route('/users', methods = ['GET'])
 def users() : 
     users = mongo.db.Users.find()
@@ -267,7 +188,7 @@ def users() :
     return resp
 
 
-#RUTA PENTRU GESTIONAREA ERORILOR   
+# error handling  
 @app.errorhandler(404)
 def not_found(error = None) : 
 
