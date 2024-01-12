@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request, render_template
-from flask_pymongo import PyMongo
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash
@@ -10,6 +9,8 @@ import pandas as pd
 from app import app
 from app import mongo
 
+
+# RUTA PENTRU PAGINA DE SIGNUP
 @app.route('/signup', methods=['GET', 'POST'])
 def add_user():
 
@@ -51,6 +52,8 @@ def add_user():
     else : 
         return render_template('signup.html')
 
+
+#RUTA PENTRU PAGINA DE LOGIN
 @app.route('/login', methods=['GET', 'POST'])
 
 def verify_user():
@@ -81,12 +84,16 @@ def verify_user():
     else : 
         return render_template('login.html')
 
+
+#RUTA FOLOSITA LA INCEPUT PENTRU TESTAREA IN POSTMAN
 @app.route('/users/<id>', methods = ['GET'])
 def user(id) : 
     user = mongo.db.Users.find_one({'_id' : ObjectId(id)})
     resp  = dumps(user)
     return resp
 
+
+#RUTA PENTRU PAGINA FORMULARULUI
 @app.route('/users/<id>/formular', methods=['GET', 'POST'])
 
 def formular_user(id):
@@ -126,6 +133,8 @@ def formular_user(id):
     else :     
         return render_template('formular.html', id=str(id), name = user_name)
 
+
+#RUTA PENTRU PAGINA DE DASHBOARD
 @app.route('/users/<id>/dashboard', methods=['GET'])
 
 def dashboard(id):
@@ -148,6 +157,8 @@ def dashboard(id):
             return render_template('dashboard.html', id=str(id), name=user_name, chart_data=chart_data)
     return render_template('formular_complet.html', id = str(id), message = 'Completeaza formularul pentru a putea vizualiza statistici',name=user_name)
 
+
+#RUTA PENTRU PAGINA DE REMINDERE
 @app.route('/users/<id>/remindere', methods = ['GET', 'POST'])
 
 def user_form(id):
@@ -156,7 +167,8 @@ def user_form(id):
     user_name = user.get('name', '')
 
     return render_template('calendar.html', id = str(id), name=user_name)
-        
+
+#RUTA PENTRU PAGINA DE ANALIZE IN PANDAS
 @app.route('/users/<id>/analiza', methods = ['GET'])
 def analiza(id):
     user = mongo.db.Users.find_one({'_id': ObjectId(id)})
@@ -180,7 +192,8 @@ def analiza(id):
                                activitate_stats=activitate_stats)
     else:
         return render_template('formular_complet.html', id = str(id), message = 'Completeaza formularul pentru a putea vizualiza statistici',name=user_name)
-    
+
+#FUNCTIE FOLOSITA PENTRU A ELIMINA TOATE CARACTERELE DE TIP 'CHAR' DINTR-UN FISIER
 def string_to_array(input_string):
     try:
         result_array = [int(num) for num in input_string.split(',')]
@@ -190,6 +203,7 @@ def string_to_array(input_string):
         return None
 from flask import Response
 
+#RUTA PENTRU PAGINA DE EXPORT
 @app.route('/users/<id>/export', methods=['GET'])
 def export_user_data(id):
     forms_data = list(mongo.db.Forms.find({'user_id': id}, {'_id': 0, 'timestamp': 0, 'user_id': 0}))
@@ -205,7 +219,8 @@ def export_user_data(id):
         return Response(csv_data, mimetype='text/csv', headers={'Content-Disposition': 'attachment;filename=date_user.csv'})
 
     return not_found()
-        
+
+#RUTA PENTRU PAGINA DE IMPORT
 @app.route('/users/<id>/import', methods=['POST'])
 def import_data(id):
     try:
@@ -245,13 +260,17 @@ def import_data(id):
     except Exception as e:
 
         return jsonify({'error': f'Error importing data. Please check your file. {str(e)}'}), 500
-    
+
+
+ #RUTA FOLOSITA LA INCEPUT PENTRU TESTAREA IN POSTMAN   
 @app.route('/users', methods = ['GET'])
 def users() : 
     users = mongo.db.Users.find()
     resp = dumps(users)
     return resp
-    
+
+
+#RUTA PENTRU GESTIONAREA ERORILOR   
 @app.errorhandler(404)
 def not_found(error = None) : 
 
