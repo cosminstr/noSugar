@@ -5,7 +5,7 @@
 {% block content %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.css">
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.js"></script>
-</head>
+<link rel="stylesheet" type="text/css" href="/static/calendar.css">
 
 <body>
     <div class="button-container">
@@ -16,31 +16,4 @@
 
     <script src ="/static/calendar.js"></script>
 
-    <style>
-        .button-container button {
-            color: #fff;
-            background-color: #66bb6a;
-            border: none;
-            padding: 20px 25px;
-            font-size: 20px;
-            cursor: pointer;
-            border-radius: 20px;
-            margin: 20px;
-            transition: background-color 0.5s ease, border-radius 0.5s ease;
-            display: inline-block;
-        }
-
-        .button-container button:hover {
-            color: rgba(255, 255, 255);
-            background-color: #4CAF50;
-            transition: background-color 0.5s ease, border-radius 0.5s ease;
-        }
-
-        #calendar {
-            width: 250% !important;
-            padding: 20px;
-            position: relative;
-            margin-left: 10px !important;
-        }
-    </style>
     {% endblock %}
