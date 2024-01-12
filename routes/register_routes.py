@@ -4,7 +4,6 @@ from werkzeug.security import check_password_hash
 from flask import redirect, url_for
 from app import app
 from app import mongo
-from users_routes import not_found
 
 # SIGNUP ROUTE
 @app.route('/signup', methods=['GET', 'POST'])
@@ -79,3 +78,17 @@ def verify_user():
             return render_template('login.html', error = 'Username inexistent')
     else : 
         return render_template('login.html')
+    
+# error handling  
+@app.errorhandler(404)
+def not_found(error = None) : 
+
+    message = { 
+        'status' : 404,
+        'message' : "user negasit " + request.url
+    }
+
+    resp = jsonify(message)
+    resp.status_code = 404
+
+    return resp
