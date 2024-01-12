@@ -15,7 +15,7 @@ Tracker and Analyzer for diabetes that allows users to add and monitor their dai
 
 1. Clone this repository: `git clone https://github.com/cosminstr/noSugar.git`
 2. Navigate to the project directory: `cd noSugar`
-3. Install dependencies: `pip install requirements.txt`
+3. Install dependencies: `pip install -r requirements.txt`
 4. Run the project: `python app.py`
 
 ## Known Issues
